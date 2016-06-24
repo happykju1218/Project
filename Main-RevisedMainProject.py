@@ -66,12 +66,12 @@ WHITE = 0
 GRAY = 1
 BLACK = 2
 
-class Adj:
+class Adj1:
     def __init__(self):
         self.n = 0
         self.next = None
 
-class Vertex:
+class Vertex1:
     def __init__(self):
         self.color = WHITE
         self.parent = -1
@@ -79,17 +79,17 @@ class Vertex:
         self.n = 0
         self.first = None
     def add(self, v):
-        a = Adj()
+        a = Adj1()
         a.n = v.n
         a.next = self.first
         self.first = a
 
-class BFSVertex(Vertex):
+class BFSVertex(Vertex1):
     def __init__(self):
         super().__init__()
         self.d = 1E10
 
-class DFSVertex(Vertex):
+class DFSVertex(Vertex1):
     def __init__(self):
         super().__init__()
         self.d = 0
@@ -846,6 +846,8 @@ def Controller():
             return True
       elif(Selected == 99)and(operateZero):
             return False
+      else:
+          return True
 
 
 ########## Main ###################################################
@@ -858,5 +860,4 @@ operateZero = False
 while FLOW:
       FLOW = Controller()
       print('')
-
 
