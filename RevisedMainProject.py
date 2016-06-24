@@ -201,7 +201,7 @@ def getFriend(user):
     friend = []
     for i in range(len(FriendSet)):
         if(user == FriendSet[i][0]):
-            friend.append(FriendSet[i][0])
+            friend.append(FriendSet[i][1])
     return friend
 
 def BFS_main():
@@ -210,11 +210,11 @@ def BFS_main():
     vertices = []
     for i in range(len(UserSet)):
         vertices.append(BFSVertex())
-        vertices[i].name = UserSet[i][1]
-        vertices[i].n = UserSet[i][0]
+        vertices[i].name = str(UserSet[i][1])
+        vertices[i].n = i
 
     for i in range(len(vertices)):
-        friendList = getFriend(vertices[i].n)
+        friendList = getFriend(UserSet[i][0])
         for t in range(len(friendList)):
             f = binary_search(UserSet,friendList[t],0)
             if (f != None):
@@ -231,6 +231,7 @@ def BFS_main():
 def readUserProfile():
       UserProfile = open('user.txt')
       return UserProfile
+
       
 def readFriendship():
       Friendship = open('friend.txt')
@@ -460,14 +461,14 @@ def friendofUser(user):
     friend = []
     for i in range(len(FriendSet)):
         if(user == FriendSet[i][0]):
-            friend.append(getUserName(FriendSet[i][0]))
+            friend.append(getUserName(FriendSet[i][1]))
     return friend
 
 def getFriend(user):
     friend = []
     for i in range(len(FriendSet)):
         if(user == FriendSet[i][0]):
-            friend.append(FriendSet[i][0])
+            friend.append(FriendSet[i][1])
     return friend
             
 
