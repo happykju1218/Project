@@ -40,6 +40,21 @@ def left(n):
 def right(n):
     return 2*n+2
 
+def binary_search(a, x, l):
+      hi = len(a)
+      lo = 0
+      while lo < hi:
+            mid = (lo+hi)//2
+            midval = a[mid][l]
+            if midval < x:
+                  lo = mid+1
+            elif midval > x:
+                  hi = mid
+            else:
+                  return mid
+      return None
+
+
 """------------------read data------------------"""
 def readUserProfile():
       UserProfile = open('user.txt')
@@ -105,20 +120,6 @@ def initTweetSet():
             k = k + 1
       heapsort(TweetSet,0)
 
-def binary_search(a, x, l):
-      hi = len(a)
-      lo = 0
-      while lo < hi:
-            mid = (lo+hi)//2
-            midval = a[mid][l]
-            if midval < x:
-                  lo = mid+1
-            elif midval > x:
-                  hi = mid
-            else:
-                  return mid
-      return None
-
 def searchTweetWord(word):
       global TweetSet
       index = []
@@ -155,8 +156,13 @@ def deleteFriendFrom(user):
             if(FriendSet[i][1] == user):
                   del FriendSet[i]
 
+def getUserName(user):
+    global UserSet
+    return UserSet[binary_search(UserSet, user, 0)][1]
+
 def minFriend():
       global FriendSet
+      heapsort(FriendSet,0)
       Min = len(FriendSet)
       tmpUser = FriendSet[0][0]
       tmpFriendNum = 0
@@ -175,6 +181,7 @@ def minFriend():
 
 def maxFriend():
       global FriendSet
+      heapsort(FriendSet,0)
       Max = 0
       tmpUser = FriendSet[0][0]
       tmpFriendNum = 0
@@ -193,6 +200,7 @@ def maxFriend():
 
 def minTweet():
       global TweetSet
+      heapsort(TweetSet,0)
       Min = len(TweetSet)
       tmpUser = TweetSet[0][0]
       tmpTweetNum = 0
@@ -211,6 +219,7 @@ def minTweet():
 
 def maxTweet():
       global TweetSet
+      heapsort(TweetSet,0)
       TweetMax = 0
       tmpUser = TweetSet[0][0]
       tmpTweetNum = 0
@@ -227,7 +236,44 @@ def maxTweet():
                         tmpTweetNum = 1
       return TweetMax
 
+def top5Tweet():
+      global TweetSet
+      heapsort(TweetSet,1)
+      uniqueWord = []
+      tmpWord = TweetSet[0][1]
+      tmpWordNum = 0
+      for i in range(len(TweetSet)):
+            if(tmpWord == TweetSet[i][1]):
+                  tmpWordNum = tmpWordNum + 1
+            else:
+                  uniqueWord.append([tmpWord,tmpWordNum])
+                  tmpWord = TweetSet[i][1]
+                  tmpWordNum = 1
+      heapsort(uniqueWord,1)
+      top5Word = []
+      for i in range(5):
+          top5Word.append(uniqueWord[len(uniqueWord) - i -1])
+      return top5Word
 
+def top5User():
+      global TweetSet
+      heapsort(TweetSet,0)
+      uniqueUser = []
+      tmpUser = TweetSet[0][0]
+      tmpUserNum = 0
+      for i in range(len(TweetSet)):
+            if(tmpUser == TweetSet[i][0]):
+                  tmpUserNum = tmpUserNum + 1
+            else:
+                  uniqueUser.append([tmpUser,tmpUserNum])
+                  tmpUser = TweetSet[i][0]
+                  tmpUserNum = 1
+      heapsort(uniqueUser,1)
+      top5User = []
+      for i in range(5):
+          top5User.append(getUserName(uniqueUser[len(uniqueUser)-i-1][0]))
+      return top5User
+            
       
 
 ########## User Interface################################################
@@ -312,8 +358,10 @@ def Controller():
             Menu7()
             return True
       elif(Selected == 8):
+            Menu8()
             return True
       elif(Selected == 9):
+            Menu9()
             return True
       elif(Selected == 99):
             return False
@@ -328,7 +376,15 @@ while FLOW:
       print('')
 
 
-#A = [[3,2],[5,3],[1,4]]
+#A = [[1,'ㄱㅣㅁ'],[2,'ㅈㅓㅇ'],[3,'ㅇㅜㄱ']]
 #heapsort(A,1)
 
 #print(A)
+#A.sort()
+#print(('A'))
+#print(top5Tweet())
+a = top5User()
+
+for i in range(len(a)):
+    print(a[i])
+
