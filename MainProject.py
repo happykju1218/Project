@@ -699,10 +699,7 @@ def Controller():
 FLOW = False
 while FLOW:
       FLOW = Controller()
-      
-TotalUsers = initUserSet(IUserSet)
-TotalFriendships = initFriendship(IUserSet)
-TotalTweets = initTweetSet(ITweetSet)
+
 
 #####################################################################################################################################
 
