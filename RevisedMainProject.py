@@ -157,7 +157,7 @@ def deleteFriendFrom(user):
 
 def minFriend():
       global FriendSet
-      Min = 0
+      Min = len(FriendSet)
       tmpUser = FriendSet[0][0]
       tmpFriendNum = 0
       for i in range(len(FriendSet)):
@@ -167,10 +167,10 @@ def minFriend():
                   if(Min > tmpFriendNum):
                         Min = tmpFriendNum
                         tmpUser = TweetSet[i][0]
-                        tmpFriendNum = 0
+                        tmpFriendNum = 1
                   else:
                         tmpUser = TweetSet[i][0]
-                        tmpFriendNum = 0
+                        tmpFriendNum = 1
       return Min
 
 def maxFriend():
@@ -185,15 +185,15 @@ def maxFriend():
                   if(Max < tmpFriendNum):
                         Max = tmpFriendNum
                         tmpUser = TweetSet[i][0]
-                        tmpFriendNum = 0
+                        tmpFriendNum = 1
                   else:
                         tmpUser = TweetSet[i][0]
-                        tmpFriendNum = 0
+                        tmpFriendNum = 1
       return Max
 
 def minTweet():
       global TweetSet
-      Min = 0
+      Min = len(TweetSet)
       tmpUser = TweetSet[0][0]
       tmpTweetNum = 0
       for i in range(len(TweetSet)):
@@ -203,10 +203,10 @@ def minTweet():
                   if(Min > tmpTweetNum):
                         Min = tmpTweetNum
                         tmpUser = TweetSet[i][0]
-                        tmpTweetNum = 0
+                        tmpTweetNum = 1
                   else:
                         tmpUser = TweetSet[i][0]
-                        tmpTweetNum = 0
+                        tmpTweetNum = 1
       return Min
 
 def maxTweet():
@@ -221,10 +221,10 @@ def maxTweet():
                   if(TweetMax < tmpTweetNum):
                         TweetMax = tmpTweetNum
                         tmpUser = TweetSet[i][0]
-                        tmpTweetNum = 0
+                        tmpTweetNum = 1
                   else:
                         tmpUser = TweetSet[i][0]
-                        tmpTweetNum = 0
+                        tmpTweetNum = 1
       return TweetMax
 
 
@@ -271,6 +271,18 @@ def Menu0():
       print('Total friendship records : ' + str(len(FriendSet)))
       print('Total tweets : ' + str(len(TweetSet)))
 
+def Menu1():
+      global UserSet
+      global FriendSet
+      global TweetSet
+      print('Average numer of friends : ' + str(len(FriendSet)/len(UserSet)))
+      print('Minimum friends : ' + str(minFriend()))
+      print('Maximum number of friends : '  + str(maxFriend()))
+      print('')
+      print('Average tweets per user : ' + str(len(TweetSet)/len(UserSet)))
+      print('Minimum tweets by user : ' + str(minTweet()))
+      print('Maximum tweets by user : ' + str(maxTweet()))
+
 def Controller():
       
       Selected = UserInterFace()
@@ -313,14 +325,10 @@ FLOW = True
 
 while FLOW:
       FLOW = Controller()
+      print('')
 
 
 #A = [[3,2],[5,3],[1,4]]
 #heapsort(A,1)
 
 #print(A)
-print(minFriend())
-print(maxFriend())
-print(minTweet())
-print(maxTweet())
-
