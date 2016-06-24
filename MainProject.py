@@ -705,16 +705,6 @@ while FLOW:
       FLOW = Controller()
       
 
-#TotalUsers = initUserSet(IUserSet)
-#TotalFriendships = initFriendship(IUserSet)
-#TotalTweets = initTweetSet(ITweetSet)
-
-
-
-
-#Arr ITweetSet.makeTweetArr()
-#when delete tweet , should match deleteoperation with user's tweet state
-
 ################################################################  
 
       
