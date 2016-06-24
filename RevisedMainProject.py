@@ -1,6 +1,7 @@
 global UserSet
 global FriendSet
 global TweetSet
+global SelectedUser
 UserSet = []
 FriendSet = []
 TweetSet = []
@@ -278,8 +279,16 @@ def searchUserWord(word):
     index = searchTweetWord(word)
     mentionUser = []
     for i in range(len(index)):
-        mentionUser.append(getUserName(TweetSet[index[i]][0]))
+        mentionUser.append(TweetSet[index[i]][0])
     return mentionUser
+
+def friendofUser(user):
+    friend = []
+    for i in range(len(FriendSet)):
+        if(user == FriendSet[i][0]):
+            friend.append(getUserName(FriendSet[i][0]))
+    return friend
+            
 
 ########## User Interface################################################
 
@@ -343,8 +352,25 @@ def Menu3():
     print('Top 5 most tweeted users : ')
     print(top5User())
 
+def Menu4():
+    word = input('keyword : ')
+    users = searchUserWord(word)
+    for i in range(len(users)):
+        print(getUserName(users[i]))
+    return users
+
+def Menu5(users):
+    print('who are friend of the above users')
+    friends = []
+    for i in range(len(users)):
+        print(friendofUser(users[i]))
+
+def Menu6():
+    word = input('keyword to delete : ')
+    deleteTweetWord(word)
+
 def Controller():
-      
+      global SelectedUser
       Selected = UserInterFace()
       
       if(Selected == 0):
@@ -360,10 +386,10 @@ def Controller():
             Menu3()
             return True
       elif(Selected == 4):
-            SearchedArray = Menu4()
+            SelectedUser = Menu4()
             return True
       elif(Selected == 5):
-            Menu5(SearchedArray)
+            Menu5(SelectedUser)
             return True
       elif(Selected == 6):
             Menu6()
@@ -384,7 +410,6 @@ def Controller():
 ########## Main ###################################################
 
 FLOW = True
-
 while FLOW:
       FLOW = Controller()
       print('')
