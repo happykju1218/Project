@@ -26,11 +26,17 @@ class linkedList:
             while current:
                   if(val == current.val):
                         if(current.prev != None):
-                              current.prev.next = current.next
-                              current.next.prev = current.prev
+                              if(current.next != None):
+                                    current.prev.next = current.next
+                                    current.next.prev = current.prev
+                              else:
+                                    current.prev.next = current.next
                         else:
-                              self.start = current.next
-                              current.next.prev = None
+                              if(current.next != None):
+                                    self.start = current.next
+                                    current.next.prev = None
+                              else:
+                                    self.start = current.next
                   current = current.next
                   
 """-------------------linked list END-----------------------"""
