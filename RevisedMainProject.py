@@ -1,3 +1,18 @@
+global totalUserNum
+global totalFriendNum
+global totalTweetNum
+totalUserNum = 0
+totalFriendNum = 0
+totalTweetNum = 0
+
+global UserSet
+global FriendSet
+global TweetSet
+UserSet = []
+FriendSet = []
+TweetSet = []
+
+
 """-----------------heap sort Start------------------------"""
 
 def heapify(A,i,heapsize):
@@ -45,15 +60,10 @@ def readWordTweet():
       WordTweet = open('word.txt', encoding='utf-8')
       return WordTweet
 
-totalUserNum = 0
-totalFriendNum = 0
-totalTweetNum = 0
-
-UserSet = []
-FriendSet = []
-TweetSet = []
 
 def initUserSet():
+      global UserSet
+      global totalUserNum
       UserProfile = readUserProfile()
       k = 0
       tmpUserId = None
@@ -70,6 +80,8 @@ def initUserSet():
             k= k + 1
       
 def initFriendSet():
+      global FriendSet
+      global totalFriendNum
       Friendship = readFriendship()
       k = 0
       tmpFriendFrom = None
@@ -86,6 +98,8 @@ def initFriendSet():
             k = k + 1
 
 def initTweetSet():
+      global TweetSet
+      global totalTweetNum
       WordTweet = readWordTweet()
       k = 0
       tmpTweetBy = None
@@ -185,3 +199,4 @@ def Controller():
 FLOW = True
 while FLOW:
       FLOW = Controller()
+
