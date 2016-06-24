@@ -124,7 +124,7 @@ def searchTweetWord(word):
       global TweetSet
       index = []
       for i in range(len(TweetSet)):
-            if(TweetSet[i][0] == word):
+            if(TweetSet[i][1] == word):
                   index.append(i)
       return index
 
@@ -273,8 +273,13 @@ def top5User():
       for i in range(5):
           top5User.append(getUserName(uniqueUser[len(uniqueUser)-i-1][0]))
       return top5User
-            
-      
+
+def searchUserWord(word):
+    index = searchTweetWord(word)
+    mentionUser = []
+    for i in range(len(index)):
+        mentionUser.append(getUserName(TweetSet[index[i]][0]))
+    return mentionUser
 
 ########## User Interface################################################
 
@@ -328,6 +333,15 @@ def Menu1():
       print('Average tweets per user : ' + str(len(TweetSet)/len(UserSet)))
       print('Minimum tweets by user : ' + str(minTweet()))
       print('Maximum tweets by user : ' + str(maxTweet()))
+
+
+def Menu2():
+    print('Top 5 most tweeted words : ')
+    print(top5Tweet())
+
+def Menu3():
+    print('Top 5 most tweeted users : ')
+    print(top5User())
 
 def Controller():
       
@@ -383,8 +397,9 @@ while FLOW:
 #A.sort()
 #print(('A'))
 #print(top5Tweet())
-a = top5User()
+#k = input('input :')
+#a = searchUserWord(k)
 
-for i in range(len(a)):
-    print(a[i])
+#for i in range(len(a)):
+#    print(a[i])
 
