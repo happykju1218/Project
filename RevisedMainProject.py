@@ -13,30 +13,30 @@ FriendSet = []
 TweetSet = []
 
 
-"""-----------------heap sort Start------------------------"""
+"""---------------------heap sort Start------------------------"""
 
-def heapify(A,i,heapsize):
+def heapify(A,i,heapsize,t):
     l = left(i)
     r = right(i)
-    if l < heapsize and A[l] > A[i]:
+    if l < heapsize and A[l][t] > A[i][t]:
         largest = l
     else:
         largest = i
-    if r < heapsize and A[r] > A[largest]:
+    if r < heapsize and A[r][t] > A[largest][t]:
         largest = r
     if largest != i:
         A[i],A[largest] = A[largest],A[i]
-        heapify(A,largest,heapsize)
+        heapify(A,largest,heapsize,t)
 
-def buildheap(A):
+def buildheap(A,t):
     for i in range(len(A)//2 + 1,0,-1):
-        heapify(A,i-1,len(A))
+        heapify(A,i-1,len(A),t)
 
-def heapsort(A):
-    buildheap(A)
+def heapsort(A,t):
+    buildheap(A,t)
     for i in range(len(A),1,-1):
         A[i-1],A[0] = A[0],A[i-1]
-        heapify(A,0,i - 1)
+        heapify(A,0,i - 1,t)
 
 def parent(n):
     return (n-1)//2
@@ -47,7 +47,7 @@ def left(n):
 def right(n):
     return 2*n+2
 
-"""------------read data----------------"""
+"""------------------read data------------------"""
 def readUserProfile():
       UserProfile = open('user.txt')
       return UserProfile
@@ -78,6 +78,7 @@ def initUserSet():
                   UserSet.append([tmpUserId,tmpUserName])
                   totalUserNum = totalUserNum + 1
             k= k + 1
+      heapsort(UserSet)
       
 def initFriendSet():
       global FriendSet
@@ -96,6 +97,7 @@ def initFriendSet():
                   FriendSet.append([tmpFriendFrom,tmpFriendTo])
                   totalFriendNum = totalFriendNum  + 1
             k = k + 1
+      heapsort(FriendSet)
 
 def initTweetSet():
       global TweetSet
@@ -114,8 +116,54 @@ def initTweetSet():
                   TweetSet.append([tmpTweetBy,tmpTweetWord])
                   totalTweetNum = totalTweetNum + 1
             k = k + 1
-            
 
+def binary_search(a, x):
+      hi = len(a)
+      lo = 0
+      while lo < hi:
+            mid = (lo+hi)//2
+            midval = a[mid]
+            if midval < x:
+                  lo = mid+1
+            elif midval > x:
+                  hi = mid
+            else:
+                  return mid
+      return None
+
+def searchTweetWord(word):
+      global TweetSet
+      index = []
+      for i in range(TweetSet):
+            if(TweetSet[i][0] == word):
+                  index.append(i)
+      return index
+
+def searchTweetUser(user):
+      global TweetSet
+      index = []
+      for i in range(TweetSet):
+            if(TweetSet[i][1] == user):
+                  index.append(i)
+      return index
+
+def deleteTweetWord(word):
+      global TweetSet
+      for i in range(TweetSet):
+            if(TweetSet[i][0] == word):
+                  del TweetSet[i]
+      return print('deleted')
+
+def deleteTweetUser(user):
+      global TweetSet
+      for i in range(TweetSet):
+            if(TweetSet[i][1] == user):
+                  del TweetSet[i]
+      return print('deleted')
+
+def deleteFriend():
+      global FriendSet
+      
 
 ########## User Interface################################################
 
@@ -196,7 +244,14 @@ def Controller():
 
 ########## Main ###################################################
 
-FLOW = True
+FLOW = False
+
 while FLOW:
       FLOW = Controller()
+
+
+#A = [[3,2],[5,3],[1,4]]
+#heapsort(A,1)
+
+#print(A)
 
