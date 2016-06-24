@@ -41,6 +41,8 @@ def left(n):
 def right(n):
     return 2*n+2
 
+'''binary search'''
+
 def binary_search(a, x, l):
       hi = len(a)
       lo = 0
@@ -54,6 +56,146 @@ def binary_search(a, x, l):
             else:
                   return mid
       return None
+
+import copy
+
+WHITE = 0
+GRAY = 1
+BLACK = 2
+
+class Adj:
+    def __init__(self):
+        self.n = 0
+        self.next = None
+
+class Vertex:
+    def __init__(self):
+        self.color = WHITE
+        self.parent = -1
+        self.name = '(none)'
+        self.n = 0
+        self.first = None
+    def add(self, v):
+        a = Adj()
+        a.n = v.n
+        a.next = self.first
+        self.first = a
+
+class BFSVertex(Vertex):
+    def __init__(self):
+        super().__init__()
+        self.d = 1E10    #infty
+
+class DFSVertex(Vertex):
+    def __init__(self):
+        super().__init__()
+        self.d = 0
+        self.f = 0
+
+class Queue:
+    def __init__(self):
+        self.front = 0
+        self.rear = 0
+        self.sz = 0
+        self.buf = []
+    def create_queue(self,sz):
+        self.sz = sz
+        self.buf = list(range(sz)) 
+    def enqueue(self,val):
+        self.buf[self.rear] = val
+        self.rear = (self.rear + 1) % self.sz
+    def dequeue(self):
+        res = self.buf[self.front]
+        self.front = (self.front + 1) % self.sz
+        return res
+    def is_empty(self):
+        return self.front == self.rear
+
+def print_vertex(vertices,n):
+    print (vertices[n].name, end=' ')
+    print (vertices[n].color, end=' ')
+    print (vertices[n].parent, end=' ')
+    print (vertices[n].d, end=':')
+    p = vertices[n].first
+    while p:
+        print (vertices[p.n].name, end = ' ')
+        p = p.next
+    print('')
+
+class DepthFirstSearch:
+    def __init__(self):
+        self.time = 0;
+        self.vertices = None
+    def set_vertices(self,vertices):
+        self.vertices = vertices
+    def dfs(self):
+        for u in self.vertices:
+            u.color = WHITE
+            u.parent = -1
+        self.time = 0
+        for u in self.vertices:
+            if u.color == WHITE:
+                self.dfs_visit(u)
+    def dfs_visit(self, u):
+        self.time = self.time + 1
+        u.d = self.time
+        u.color = GRAY
+        v = u.first
+        while v:
+            if self.vertices[v.n].color == WHITE:
+                self.vertices[v.n].parent = u.n
+                self.dfs_visit(self.vertices[v.n])
+            v = v.next;
+        u.color = BLACK
+        self.time = self.time + 1
+        u.f = self.time
+    def print_vertex(self,n):
+        print (self.vertices[n].name, end=' ')
+        print (self.vertices[n].color, end=' ')
+        print (self.vertices[n].parent, end=' ')
+        print (self.vertices[n].d, end=' ')
+        print (self.vertices[n].f, end=':')
+        p = self.vertices[n].first
+        while p:
+            print (self.vertices[p.n].name, end = ' ')
+            p = p.next
+        print('')
+
+    def transpose(self):
+        new_vertices = copy.deepcopy(self.vertices)
+        for m in range(0,len(new_vertices)):
+            new_vertices[m].first = None
+        for i in range(0,len(new_vertices)):
+            k = self.vertices[i].first
+            while k:
+                new_vertices[k.n].add(new_vertices[i])
+                k = k.next
+        self.vertices = new_vertices
+
+def bfs(vertices, s):
+    for u in vertices:
+        if u.n != s.n:
+            u.color = WHITE
+            u.d = 1E10
+            u.parent = -1
+    s.color = GRAY
+    s.d = 0
+    s.parent = -1
+    q = Queue()
+    q.create_queue(len(vertices))
+    q.enqueue(s.n)
+    while not q.is_empty():
+        u = q.dequeue()
+        adj_v = vertices[u].first
+        while adj_v:
+            if vertices[adj_v.n].color == WHITE:
+                vertices[adj_v.n].color = GRAY
+                vertices[adj_v.n].d = vertices[u].d + 1
+                vertices[adj_v.n].parent = u
+                q.enqueue(adj_v.n)
+            adj_v = adj_v.next
+        vertices[u].color = BLACK
+
 
 
 """------------------read data------------------"""
@@ -139,23 +281,26 @@ def searchTweetUser(user):
 
 def deleteTweetWord(word):
       global TweetSet
-      for i in range(len(TweetSet)):
-            if(TweetSet[i][0] == word):
-                  del TweetSet[i]                 
+      l = len(TweetSet)
+      for i in range(l):
+            if(TweetSet[l-i-1][0] == word):
+                  del TweetSet[l-i-1]                 
       return print('deleted')
 
 def deleteTweetUser(user):
       global TweetSet
-      for i in range(len(TweetSet)):
-            if(TweetSet[i][1] == user):
-                  del TweetSet[i]
+      l = len(TweetSet)
+      for i in range(l):
+            if(TweetSet[l - i -1][1] == user):
+                  del TweetSet[l - i -1]
       return print('deleted')
 
 def deleteFriendFrom(user):
       global FriendSet
-      for i in range(len(FriendSet)):
-            if(FriendSet[i][1] == user):
-                  del FriendSet[i]
+      l = len(FriendSet)
+      for i in range(l):
+            if(FriendSet[l - i -1][1] == user):
+                  del FriendSet[l - i -1]
 
 def getUserName(user):
     global UserSet
@@ -369,6 +514,17 @@ def Menu6():
     word = input('keyword to delete : ')
     deleteTweetWord(word)
 
+def Menu7():
+    word = input('keyword to delete who mentioned : ')
+    users = searchUserWord(word)
+    users.sort(reverse = True)
+    for i in range(len(users)):
+        k = binary_search(UserSet, users[i], 0)
+        if(k != None):
+            del UserSet[k]
+        deleteTweetUser(users[i])
+        deleteFriendFrom(users[i])
+
 def Controller():
       global SelectedUser
       Selected = UserInterFace()
@@ -414,17 +570,4 @@ while FLOW:
       FLOW = Controller()
       print('')
 
-
-#A = [[1,'ㄱㅣㅁ'],[2,'ㅈㅓㅇ'],[3,'ㅇㅜㄱ']]
-#heapsort(A,1)
-
-#print(A)
-#A.sort()
-#print(('A'))
-#print(top5Tweet())
-#k = input('input :')
-#a = searchUserWord(k)
-
-#for i in range(len(a)):
-#    print(a[i])
 
