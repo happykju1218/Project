@@ -1,10 +1,3 @@
-global totalUserNum
-global totalFriendNum
-global totalTweetNum
-totalUserNum = 0
-totalFriendNum = 0
-totalTweetNum = 0
-
 global UserSet
 global FriendSet
 global TweetSet
@@ -63,7 +56,6 @@ def readWordTweet():
 
 def initUserSet():
       global UserSet
-      global totalUserNum
       UserProfile = readUserProfile()
       k = 0
       tmpUserId = None
@@ -76,13 +68,11 @@ def initUserSet():
             elif(determinent == 2):
                   tmpUserName = line
                   UserSet.append([tmpUserId,tmpUserName])
-                  totalUserNum = totalUserNum + 1
             k= k + 1
-      heapsort(UserSet)
+      heapsort(UserSet,0)
       
 def initFriendSet():
       global FriendSet
-      global totalFriendNum
       Friendship = readFriendship()
       k = 0
       tmpFriendFrom = None
@@ -95,13 +85,11 @@ def initFriendSet():
             elif(determinent == 1):
                   tmpFriendTo = int(line)
                   FriendSet.append([tmpFriendFrom,tmpFriendTo])
-                  totalFriendNum = totalFriendNum  + 1
             k = k + 1
-      heapsort(FriendSet)
+      heapsort(FriendSet,0)
 
 def initTweetSet():
       global TweetSet
-      global totalTweetNum
       WordTweet = readWordTweet()
       k = 0
       tmpTweetBy = None
@@ -114,15 +102,15 @@ def initTweetSet():
             elif(determinent == 2):
                   tmpTweetWord = line
                   TweetSet.append([tmpTweetBy,tmpTweetWord])
-                  totalTweetNum = totalTweetNum + 1
             k = k + 1
+      heapsort(TweetSet,0)
 
-def binary_search(a, x):
+def binary_search(a, x, l):
       hi = len(a)
       lo = 0
       while lo < hi:
             mid = (lo+hi)//2
-            midval = a[mid]
+            midval = a[mid][l]
             if midval < x:
                   lo = mid+1
             elif midval > x:
@@ -134,7 +122,7 @@ def binary_search(a, x):
 def searchTweetWord(word):
       global TweetSet
       index = []
-      for i in range(TweetSet):
+      for i in range(len(TweetSet)):
             if(TweetSet[i][0] == word):
                   index.append(i)
       return index
@@ -142,27 +130,104 @@ def searchTweetWord(word):
 def searchTweetUser(user):
       global TweetSet
       index = []
-      for i in range(TweetSet):
+      for i in range(len(TweetSet)):
             if(TweetSet[i][1] == user):
                   index.append(i)
       return index
 
 def deleteTweetWord(word):
       global TweetSet
-      for i in range(TweetSet):
+      for i in range(len(TweetSet)):
             if(TweetSet[i][0] == word):
-                  del TweetSet[i]
+                  del TweetSet[i]                 
       return print('deleted')
 
 def deleteTweetUser(user):
       global TweetSet
-      for i in range(TweetSet):
+      for i in range(len(TweetSet)):
             if(TweetSet[i][1] == user):
                   del TweetSet[i]
       return print('deleted')
 
-def deleteFriend():
+def deleteFriendFrom(user):
       global FriendSet
+      for i in range(len(FriendSet)):
+            if(FriendSet[i][1] == user):
+                  del FriendSet[i]
+
+def minFriend():
+      global FriendSet
+      Min = 0
+      tmpUser = FriendSet[0][0]
+      tmpFriendNum = 0
+      for i in range(len(FriendSet)):
+            if(tmpUser == FriendSet[i][0]):
+                  tmpFriendNum = tmpFriendNum + 1
+            else:
+                  if(Min > tmpFriendNum):
+                        Min = tmpFriendNum
+                        tmpUser = TweetSet[i][0]
+                        tmpFriendNum = 0
+                  else:
+                        tmpUser = TweetSet[i][0]
+                        tmpFriendNum = 0
+      return Min
+
+def maxFriend():
+      global FriendSet
+      Max = 0
+      tmpUser = FriendSet[0][0]
+      tmpFriendNum = 0
+      for i in range(len(FriendSet)):
+            if(tmpUser == FriendSet[i][0]):
+                  tmpFriendNum = tmpFriendNum + 1
+            else:
+                  if(Max < tmpFriendNum):
+                        Max = tmpFriendNum
+                        tmpUser = TweetSet[i][0]
+                        tmpFriendNum = 0
+                  else:
+                        tmpUser = TweetSet[i][0]
+                        tmpFriendNum = 0
+      return Max
+
+def minTweet():
+      global TweetSet
+      Min = 0
+      tmpUser = TweetSet[0][0]
+      tmpTweetNum = 0
+      for i in range(len(TweetSet)):
+            if(tmpUser == TweetSet[i][0]):
+                  tmpTweetNum = tmpTweetNum + 1
+            else:
+                  if(Min > tmpTweetNum):
+                        Min = tmpTweetNum
+                        tmpUser = TweetSet[i][0]
+                        tmpTweetNum = 0
+                  else:
+                        tmpUser = TweetSet[i][0]
+                        tmpTweetNum = 0
+      return Min
+
+def maxTweet():
+      global TweetSet
+      TweetMax = 0
+      tmpUser = TweetSet[0][0]
+      tmpTweetNum = 0
+      for i in range(len(TweetSet)):
+            if(tmpUser == TweetSet[i][0]):
+                  tmpTweetNum = tmpTweetNum + 1
+            else:
+                  if(TweetMax < tmpTweetNum):
+                        TweetMax = tmpTweetNum
+                        tmpUser = TweetSet[i][0]
+                        tmpTweetNum = 0
+                  else:
+                        tmpUser = TweetSet[i][0]
+                        tmpTweetNum = 0
+      return TweetMax
+
+
       
 
 ########## User Interface################################################
@@ -202,9 +267,9 @@ def Menu0():
       initUserSet()
       initFriendSet()
       initTweetSet()
-      print('Total users : ' + str(totalUserNum))
-      print('Total friendship records : ' + str(totalFriendNum))
-      print('Total tweets : ' + str(totalTweetNum))
+      print('Total users : ' + str(len(UserSet)))
+      print('Total friendship records : ' + str(len(FriendSet)))
+      print('Total tweets : ' + str(len(TweetSet)))
 
 def Controller():
       
@@ -244,7 +309,7 @@ def Controller():
 
 ########## Main ###################################################
 
-FLOW = False
+FLOW = True
 
 while FLOW:
       FLOW = Controller()
@@ -254,4 +319,8 @@ while FLOW:
 #heapsort(A,1)
 
 #print(A)
+print(minFriend())
+print(maxFriend())
+print(minTweet())
+print(maxTweet())
 
