@@ -57,6 +57,7 @@ def binary_search(a, x, l):
                   return mid
       return None
 
+
 import copy
 
 WHITE = 0
@@ -84,7 +85,7 @@ class Vertex:
 class BFSVertex(Vertex):
     def __init__(self):
         super().__init__()
-        self.d = 1E10    #infty
+        self.d = 1E10
 
 class DFSVertex(Vertex):
     def __init__(self):
@@ -196,7 +197,35 @@ def bfs(vertices, s):
             adj_v = adj_v.next
         vertices[u].color = BLACK
 
+def getFriend(user):
+    friend = []
+    for i in range(len(FriendSet)):
+        if(user == FriendSet[i][0]):
+            friend.append(FriendSet[i][0])
+    return friend
 
+def BFS_main():
+    global UserSet
+    global FriendSet
+    vertices = []
+    for i in range(len(UserSet)):
+        vertices.append(BFSVertex())
+        vertices[i].name = UserSet[i][1]
+        vertices[i].n = UserSet[i][0]
+
+    for i in range(len(vertices)):
+        friendList = getFriend(vertices[i].n)
+        for t in range(len(friendList)):
+            f = binary_search(UserSet,friendList[t],0)
+            if (f != None):
+                vertices[i].add(vertices[f])
+
+    DFS = DepthFirstSearch()
+    DFS.set_vertices(vertices)    
+    DFS.transpose()
+    DFS.dfs()
+    for i in range(0,len(vertices)):
+        DFS.print_vertex(i)
 
 """------------------read data------------------"""
 def readUserProfile():
@@ -433,6 +462,13 @@ def friendofUser(user):
         if(user == FriendSet[i][0]):
             friend.append(getUserName(FriendSet[i][0]))
     return friend
+
+def getFriend(user):
+    friend = []
+    for i in range(len(FriendSet)):
+        if(user == FriendSet[i][0]):
+            friend.append(FriendSet[i][0])
+    return friend
             
 
 ########## User Interface################################################
@@ -570,4 +606,5 @@ while FLOW:
       FLOW = Controller()
       print('')
 
+BFS_main()
 
