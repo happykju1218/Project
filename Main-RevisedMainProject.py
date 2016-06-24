@@ -1,3 +1,4 @@
+
 global UserSet
 global FriendSet
 global TweetSet
@@ -7,7 +8,7 @@ FriendSet = []
 TweetSet = []
 
 
-"""------------------------------------------heap sort Start---------------------------------------------------------"""
+"""---------------------heap sort Start------------------------"""
 
 def heapify(A,i,heapsize,t):
     l = left(i)
@@ -41,7 +42,7 @@ def left(n):
 def right(n):
     return 2*n+2
 
-'''--------------------------binary search--------------------------------------'''
+'''binary search'''
 
 def binary_search(a, x, l):
       hi = len(a)
@@ -57,7 +58,7 @@ def binary_search(a, x, l):
                   return mid
       return None
 
-"""---------------------------------BFS elements---------------------------------------------------"""
+
 import copy
 
 WHITE = 0
@@ -227,7 +228,7 @@ def DFS_main():
     for i in range(0,len(vertices)):
         graph.print_vertex(i)
 
-"""-------------------------------------read data--------------------------------------------"""
+"""------------------read data------------------"""
 def readUserProfile():
       UserProfile = open('user.txt')
       return UserProfile
@@ -292,8 +293,6 @@ def initTweetSet():
                   TweetSet.append([tmpTweetBy,tmpTweetWord])
             k = k + 1
       heapsort(TweetSet,0)
-
-"""---------------------------Main funcitons---------------------------------------------"""
 
 def searchTweetWord(word):
       global TweetSet
@@ -474,7 +473,7 @@ def getFriend(user):
     return friend
             
 
-##################################################### User Interface#####################################################################
+########## User Interface################################################
 
 def UserInterFace():
       MenuList()
@@ -506,8 +505,6 @@ def SelectMenu():
       except ValueError:
             print('input should be integer type')
             SelectMenu()
-
-##################################Controller####################################################################################
 
 def Menu0():
       initUserSet()
@@ -574,46 +571,54 @@ def Menu9():
 
 def Controller():
       print('')
+      global operateFour
+      global operateZero
       global SelectedUser
       Selected = UserInterFace()
       
       if(Selected == 0):
             Menu0()
+            operateZero = True
             return True
-      elif(Selected == 1):
+      elif(Selected == 1)and(operateZero):
             Menu1()
             return True
-      elif(Selected == 2):
+      elif(Selected == 2)and(operateZero):
             Menu2()
             return True
-      elif(Selected == 3):
+      elif(Selected == 3)and(operateZero):
             Menu3()
             return True
-      elif(Selected == 4):
+      elif(Selected == 4)and(operateZero):
             SelectedUser = Menu4()
+            operateFour = True
             return True
-      elif(Selected == 5):
+      elif(Selected == 5)and(operateFour):
             Menu5(SelectedUser)
             return True
-      elif(Selected == 6):
+      elif(Selected == 6)and(operateZero):
             Menu6()
             return True
-      elif(Selected == 7):
+      elif(Selected == 7)and(operateZero):
             Menu7()
             return True
-      elif(Selected == 8):
+      elif(Selected == 8)and(operateZero):
             Menu8()
             return True
-      elif(Selected == 9):
+      elif(Selected == 9)and(operateZero):
             Menu9()
             return True
-      elif(Selected == 99):
+      elif(Selected == 99)and(operateZero):
             return False
 
 
-################################################## Main ##################################################################
+########## Main ###################################################
 
 FLOW = True
+global operateZero
+global operateFour
+operateFour = False
+operateZero = False
 while FLOW:
       FLOW = Controller()
       print('')
