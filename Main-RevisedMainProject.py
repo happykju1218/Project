@@ -7,7 +7,7 @@ FriendSet = []
 TweetSet = []
 
 
-"""---------------------heap sort Start------------------------"""
+"""------------------------------------------heap sort Start---------------------------------------------------------"""
 
 def heapify(A,i,heapsize,t):
     l = left(i)
@@ -41,7 +41,7 @@ def left(n):
 def right(n):
     return 2*n+2
 
-'''binary search'''
+'''--------------------------binary search--------------------------------------'''
 
 def binary_search(a, x, l):
       hi = len(a)
@@ -57,7 +57,7 @@ def binary_search(a, x, l):
                   return mid
       return None
 
-
+"""---------------------------------BFS elements---------------------------------------------------"""
 import copy
 
 WHITE = 0
@@ -227,7 +227,7 @@ def DFS_main():
     for i in range(0,len(vertices)):
         graph.print_vertex(i)
 
-"""------------------read data------------------"""
+"""-------------------------------------read data--------------------------------------------"""
 def readUserProfile():
       UserProfile = open('user.txt')
       return UserProfile
@@ -292,6 +292,8 @@ def initTweetSet():
                   TweetSet.append([tmpTweetBy,tmpTweetWord])
             k = k + 1
       heapsort(TweetSet,0)
+
+"""---------------------------Main funcitons---------------------------------------------"""
 
 def searchTweetWord(word):
       global TweetSet
@@ -472,7 +474,7 @@ def getFriend(user):
     return friend
             
 
-########## User Interface################################################
+##################################################### User Interface#####################################################################
 
 def UserInterFace():
       MenuList()
@@ -504,6 +506,8 @@ def SelectMenu():
       except ValueError:
             print('input should be integer type')
             SelectMenu()
+
+##################################Controller####################################################################################
 
 def Menu0():
       initUserSet()
@@ -607,7 +611,7 @@ def Controller():
             return False
 
 
-########## Main ###################################################
+################################################## Main ##################################################################
 
 FLOW = True
 while FLOW:
