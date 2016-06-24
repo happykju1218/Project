@@ -204,7 +204,7 @@ def getFriend(user):
             friend.append(FriendSet[i][1])
     return friend
 
-def BFS_main():
+def DFS_main():
     global UserSet
     global FriendSet
     vertices = []
@@ -220,12 +220,12 @@ def BFS_main():
             if (f != None):
                 vertices[i].add(vertices[f])
 
-    DFS = DepthFirstSearch()
-    DFS.set_vertices(vertices)    
-    DFS.transpose()
-    DFS.dfs()
+    graph = DepthFirstSearch()
+    graph.set_vertices(vertices)    
+    graph.transpose()
+    graph.dfs()
     for i in range(0,len(vertices)):
-        DFS.print_vertex(i)
+        graph.print_vertex(i)
 
 """------------------read data------------------"""
 def readUserProfile():
@@ -562,7 +562,14 @@ def Menu7():
         deleteTweetUser(users[i])
         deleteFriendFrom(users[i])
 
+def Menu8():
+    DFS_main()
+
+def Menu9():
+    return False
+
 def Controller():
+      print('')
       global SelectedUser
       Selected = UserInterFace()
       
@@ -607,5 +614,4 @@ while FLOW:
       FLOW = Controller()
       print('')
 
-BFS_main()
 
